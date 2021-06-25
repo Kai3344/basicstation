@@ -135,6 +135,7 @@ Variable Name | Value | Description | Default
 **`GW_GPS`** | `STRING` | Enables GPS | true or false
 **`GW_RESET_PIN`** | `INT` | Pin number that resets (Raspberry Pi header number) | 11
 **`GW_RESET_GPIO`** | `INT` | GPIO number that resets (Broadcom pin number, if not defined, it's calculated based on the GW_RESET_PIN) | 17
+**`GW_ENABLE_GPIO`** | `INT` | GPIO number that enables power (by pulling HIGH) to the concentrator (Broadcom pin number) | 0
 **`TTN_STACK_VERSION`** | `INT` | If using TTN, version of the stack. It can be either 2 (TTNv2) or 3 (TTS) | 3
 **`TTN_REGION`** | `STRING` | Region of the TTN server to use | ```eu1``` (when using TTN v2 use ```eu```)
 **`TC_TRUST`** | `STRING` | Certificate for the server | Automatically retrieved from LetsEncryt based on the `TTN_STACK_VERSION` value
