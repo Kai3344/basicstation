@@ -1,0 +1,49 @@
+diff --git a/libloragw/Makefile b/libloragw/Makefile
+index 881442f..c863458 100644
+--- a/libloragw/Makefile
++++ b/libloragw/Makefile
+@@ -12,6 +12,7 @@ CC := $(CROSS_COMPILE)gcc
+ AR := $(CROSS_COMPILE)ar
+ 
+ CFLAGS := -O2 -Wall -Wextra -std=c99 -Iinc -I. -I../libtools/inc
++CFLAGS += -DNODEBUG
+ 
+ OBJDIR = obj
+ INCLUDES = $(wildcard inc/*.h) $(wildcard ../libtools/inc/*.h)
+diff --git a/libloragw/inc/loragw_hal.h b/libloragw/inc/loragw_hal.h
+index 6e153a3..9c6a579 100644
+--- a/libloragw/inc/loragw_hal.h
++++ b/libloragw/inc/loragw_hal.h
+@@ -45,6 +45,7 @@ License: Revised BSD License, see LICENSE.TXT file include in the project
+ #define LGW_HAL_SUCCESS     0
+ #define LGW_HAL_ERROR       -1
+ #define LGW_LBT_NOT_ALLOWED 1
++#define LGW_LBT_ISSUE       LGW_LBT_NOT_ALLOWED
+ 
+ /* radio-specific parameters */
+ #define LGW_XTAL_FREQU      32000000            /* frequency of the RF reference oscillator */
+diff --git a/libloragw/src/loragw_debug.c b/libloragw/src/loragw_debug.c
+index 9a81a08..10fd058 100644
+--- a/libloragw/src/loragw_debug.c
++++ b/libloragw/src/loragw_debug.c
+@@ -29,6 +29,14 @@ License: Revised BSD License, see LICENSE.TXT file include in the project
+ 
+ #include "tinymt32.h"
+ 
++#if defined(NODEBUG)
++void dbg_init_random(void) {}
++void dbg_init_gpio(void) {}
++void dbg_log_buffer_to_file(FILE * file, uint8_t * buffer, uint16_t size) { (void) file; (void) buffer; (void) size; }
++void dbg_log_payload_diff_to_file(FILE * file, uint8_t * buffer1, uint8_t * buffer2, uint16_t size) { (void) file; (void) buffer1; (void) buffer2; (void) size; }
++int dbg_check_payload(struct lgw_conf_debug_s * context, FILE * file, uint8_t * payload_received, uint8_t size, uint8_t ref_payload_idx, uint8_t sf) {(void) context; (void) file; (void) payload_received; (void) size; (void) ref_payload_idx; (void) sf; return 0;}
++#else
++
+ /* -------------------------------------------------------------------------- */
+ /* --- DEBUG CONSTANTS ------------------------------------------------------ */
+ 
+@@ -181,3 +189,4 @@ int dbg_check_payload(struct lgw_conf_debug_s * context, FILE * file, uint8_t *
+ 
+     return 0; /* ignored */
+ }
++#endif
+\ No newline at end of file

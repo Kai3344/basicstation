@@ -31,7 +31,7 @@ PLT=platform-${platform}
 LGWLIB=${TD}/${BD}/lib/liblgw1302.a
 LGWINC=${TD}/${BD}/include/lgw
 
-LGWVERSION.default = 1.0.5
+LGWVERSION.default = 2.0.1
 LGWVERSION ?= $(or ${LGWVERSION.${platform}}, ${LGWVERSION.default})
 
 HFILES = $(wildcard ${PLT}/libloragw/inc/*.h)
