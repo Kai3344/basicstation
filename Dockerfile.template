@@ -11,7 +11,8 @@ COPY . .
 # Compile our source code
 RUN make platform=rpi variant=std arch=%%BALENA_ARCH%%
 RUN make platform=corecell variant=std arch=%%BALENA_ARCH%%
-
+#RUN make platform=rpi variant=debug arch=%%BALENA_ARCH%%
+#RUN make platform=corecell variant=debug arch=%%BALENA_ARCH%%
 
 FROM balenalib/%%BALENA_MACHINE_NAME%%-debian:buster
 

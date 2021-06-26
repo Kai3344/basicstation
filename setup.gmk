@@ -172,3 +172,5 @@ LDFLAGS  = -L ${TD}/${BD}/lib ${xLDFLAGS}
 LIBS     = ${xLIBS} ${SYSLIBS}
 FILES    = ${xFILES}
 OCFLAGS  = ${xOCFLAGS}
+
+LGWVERSION.corecell = 2.1.0
