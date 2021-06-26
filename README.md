@@ -21,11 +21,17 @@ The Basics™ Station protocol enables the LoRa gateways with a reliable and sec
 
 * SX1301 
 > * [IMST iC880a](https://shop.imst.de/wireless-modules/lora-products/8/ic880a-spi-lorawan-concentrator-868-mhz)
-> * [RAK 2245 pi hat](https://store.rakwireless.com/products/rak2245-pi-hat)
-> * RAK833
+> * [RAK 833 Concentrator](https://store.rakwireless.com/products/rak833-gateway-module)*
+> * [RAK 2245 Pi Hat](https://store.rakwireless.com/products/rak2245-pi-hat)
+> * [RAK 2247 Concentrator](https://store.rakwireless.com/products/rak2247-lpwan-gateway-concentrator-module)*
 
 * SX1302
-> * [RAK 2287 Concentrator](https://store.rakwireless.com/products/rak2287-lpwan-gateway-concentrator-module) with [RAK 2287 Pi Hat](https://store.rakwireless.com/products/rak2287-pi-hat)
+> * [RAK 2287 Concentrator](https://store.rakwireless.com/products/rak2287-lpwan-gateway-concentrator-module)* with [RAK 2287 Pi Hat](https://store.rakwireless.com/products/rak2287-pi-hat)
+
+* SX1303
+> * [RAK 5146 Concentrator](https://store.rakwireless.com/collections/wislink-lpwan/products/wislink-lpwan-concentrator-rak5146)* with [RAK 2287 Pi Hat](https://store.rakwireless.com/products/rak2287-pi-hat)
+
+* Currently, only SPI versions are supported
 
 
 ### Software
@@ -62,14 +68,14 @@ If you are a balena CLI expert, feel free to use balena CLI.
 
 ### Define your MODEL
 
-The model is defined depending on the version of the concentrator: ```SX1301``` or ```SX1302```. 
+The model is defined depending on the version of the concentrator: ```SX1301```, ```SX1302``` or  ```SX1303```. 
 
-In case that your LoRa concentrator is a ```RAK2287``` it is using ```SX1302```. If the concentrator is the ```RAK2245``` or ```iC880a``` it uses the ```SX1301```. It's important to change the balenaCloud Device Variable with the correct ```MODEL```. The default ```MODEL``` on the balena Application is the ```SX1301```.
+In case that your LoRa concentrator is a ```RAK2287``` it is using ```SX1302```. If it is a ```RAK5146``` then it is using a ```SX1303```. Any other supported concentrator uses the ```SX1301```. It's important to change the balenaCloud Device Variable with the correct ```MODEL```. The default ```MODEL``` on the balena Application is the ```SX1301```.
 
 1. Go to balenaCloud dashboard and get into your LoRa gateway device site.
-2. Click "Device Variables" button on the left menu and change the ```MODEL``` variable to ```SX1302``` if needed.
+2. Click "Device Variables" button on the left menu and change the ```MODEL``` variable to ```SX1302``` or ```SX1303``` if needed.
 
-That enables a fleet of LoRa gateways with both (e.g.) ```RAK2245``` and ```RAK2287``` together under the same app.
+That enables a fleet of LoRa gateways with different concentrators (e.g. ```RAK2245``` and ```RAK2287```) together under the same app.
 
 ### Define your REGION and TTN STACK VERSION
 
@@ -139,7 +145,7 @@ Variable Name | Value | Description | Default
 **`TTN_STACK_VERSION`** | `INT` | If using TTN, version of the stack. It can be either 2 (TTNv2) or 3 (TTS) | 3
 **`TTN_REGION`** | `STRING` | Region of the TTN server to use | ```eu1``` (when using TTN v2 use ```eu```)
 **`TC_TRUST`** | `STRING` | Certificate for the server | Automatically retrieved from LetsEncryt based on the `TTN_STACK_VERSION` value
-**`MODEL`** | `STRING` | ```SX1301``` or ```SX1302``` | ```SX1301```
+**`MODEL`** | `STRING` | ```SX1301```, ```SX1302``` or ```SX1303``` | ```SX1301```
 **`TC_URI`** | `STRING` | basics station TC URI to get connected.  | 
 
 #### The Things Stack (TTS) Specific Variables (V3)
