@@ -1,6 +1,5 @@
-FROM balenalib/%%BALENA_MACHINE_NAME%%-debian:buster-build as builder
-# Install build tools and remove layer cache afterwards 
-
+# Builder image
+FROM balenalib/%%BALENA_ARCH%%-debian:buster-build as builder
 
 # Switch to working directory for our app
 WORKDIR /usr/src/app
@@ -12,15 +11,17 @@ COPY . .
 RUN make platform=rpi variant=std arch=%%BALENA_ARCH%%
 RUN make platform=corecell variant=std arch=%%BALENA_ARCH%%
 
+# Runner image
+FROM balenalib/%%BALENA_ARCH%%-debian:buster-run as runner
 
-FROM balenalib/%%BALENA_MACHINE_NAME%%-debian:buster
+# Install required runtime packages
+RUN install_packages jq vim
 
-RUN install_packages jq
-
+# Switch to working directory for our app
 WORKDIR /usr/src/app
 
+# Copy fles from builder and repo
 COPY --from=builder /usr/src/app/ ./
-
 COPY start* ./
 
 # Launch our binary on container startup.

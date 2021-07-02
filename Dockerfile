@@ -1,33 +1,30 @@
-FROM ubuntu:18.04
+# Builder image
+ARG ARCH
+FROM balenalib/${ARCH}-debian:buster-build as builder
+ARG ARCH
 
-ENV container=docker TERM=xterm LC_ALL=en_US LANGUAGE=en_US LANG=en_US.UTF-8
-ENV DEBIAN_FRONTEND=noninteractive
+# Switch to working directory for our app
+WORKDIR /usr/src/app
 
-# locale
-RUN apt-get update -q > /dev/null && \
-        apt-get install --no-install-recommends -yq apt-utils locales language-pack-en dialog \
-        > /dev/null && \
-        locale-gen $LANGUAGE $LANG
+# Copy all the source code in.
+COPY . .
 
-# sudo commmand
-RUN apt-get -yq install sudo > /dev/null
+# Compile our source code
+RUN make platform=rpi variant=std arch=${ARCH}
+RUN make platform=corecell variant=std arch=${ARCH}
 
-# non-privileged user
-RUN echo "nonprivuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-RUN useradd --no-log-init --home-dir /home/nonprivuser --create-home --shell /bin/bash -u 1000 \
-        nonprivuser && adduser nonprivuser sudo
-USER nonprivuser
-WORKDIR /home/nonprivuser
+# Runner image
+FROM balenalib/${ARCH}-debian:buster-run as runner
 
-# system packages
-RUN sudo apt-get install --no-install-recommends -yq \
-        git psmisc build-essential lcov curl netcat-openbsd \
-        python3 python3-pip python3-setuptools python3-wheel \
-        > /dev/null && \
-        sudo apt-get clean -q && \
-        sudo ln -s /usr/bin/python3 /usr/bin/python
+# Install required runtime packages
+RUN install_packages jq vim
 
-RUN pip3 install aiohttp websockets
+# Switch to working directory for our app
+WORKDIR /usr/src/app
 
+# Copy fles from builder and repo
+COPY --from=builder /usr/src/app/ ./
+COPY start* ./
 
-
+# Launch our binary on container startup.
+CMD ["bash", "start.sh"]
