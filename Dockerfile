@@ -1,5 +1,7 @@
 # Builder image
-FROM balenalib/%%BALENA_ARCH%%-debian:buster-build as builder
+ARG ARCH
+FROM balenalib/${ARCH}-debian:buster-build as builder
+ARG ARCH
 
 # Switch to working directory for our app
 WORKDIR /usr/src/app
@@ -8,11 +10,11 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Compile our source code
-RUN make platform=rpi variant=std arch=%%BALENA_ARCH%%
-RUN make platform=corecell variant=std arch=%%BALENA_ARCH%%
+RUN make platform=rpi variant=std arch=${ARCH}
+RUN make platform=corecell variant=std arch=${ARCH}
 
 # Runner image
-FROM balenalib/%%BALENA_ARCH%%-debian:buster-run as runner
+FROM balenalib/${ARCH}-debian:buster-run as runner
 
 # Install required runtime packages
 RUN install_packages jq vim

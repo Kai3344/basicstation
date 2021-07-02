@@ -18,3 +18,5 @@ export GW_RESET_GPIO=$GW_RESET_GPIO
 export GW_ENABLE_GPIO=$GW_ENABLE_GPIO
 
 RADIODEV=$LORAGW_SPI ../../build-corecell-std/bin/station -h ./lns-ttn
+
+#idle

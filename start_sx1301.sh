@@ -16,7 +16,7 @@ fi
 # Enable gateway
 if [ $GW_ENABLE_GPIO -ne 0 ]
 then
-        echo "Concentrator enabled through GPIO$GW_ENABLE_GPIO"
+    echo "Concentrator enabled through GPIO$GW_ENABLE_GPIO"
 	echo $GW_ENABLE_GPIO > /sys/class/gpio/export
 	echo out > /sys/class/gpio/gpio$GW_ENABLE_GPIO/direction
 	echo 1 > /sys/class/gpio/gpio$GW_ENABLE_GPIO/value
@@ -37,3 +37,5 @@ echo $GW_RESET_GPIO > /sys/class/gpio/unexport
 
 # Run basicstation
 RADIODEV=$LORAGW_SPI ../../build-rpi-std/bin/station
+
+#idle

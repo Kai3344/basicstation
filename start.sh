@@ -1,28 +1,12 @@
 #!/usr/bin/env bash
 
-TAG_KEY="EUI"
-TTN_EUI=$(cat /sys/class/net/eth0/address | sed -r 's/[:]+//g' | sed -e 's#\(.\{6\}\)\(.*\)#\1fffe\2#g')
-
-echo "Gateway EUI: $TTN_EUI"
-
-ID=$(curl -sX GET "https://api.balena-cloud.com/v5/device?\$filter=uuid%20eq%20'$BALENA_DEVICE_UUID'" \
--H "Content-Type: application/json" \
--H "Authorization: Bearer $BALENA_API_KEY" | \
-jq ".d | .[0] | .id")
-
-TAG=$(curl -sX POST \
-"https://api.balena-cloud.com/v5/device_tag" \
--H "Content-Type: application/json" \
--H "Authorization: Bearer $BALENA_API_KEY" \
---data "{ \"device\": \"$ID\", \"tag_key\": \"$TAG_KEY\", \"value\": \"$TTN_EUI\" }" > /dev/null)
-
+# Dispatch depending on the concentrator type
 if [ -z ${MODEL} ] ;
- then
+then
     echo -e "\033[91mWARNING: MODEL variable not set.\n Set the model of the gateway you are using (SX1301, SX1302 or SX1303).\033[0m"
-    balena-idle
- else
+	exit 1
+else
     MODEL=${MODEL^^}
-    echo "Using MODEL: $MODEL"
     if [ "$MODEL" = "SX1301" ] || [ "$MODEL" = "RAK833" ] || [ "$MODEL" = "RAK2245" ] || [ "$MODEL" = "RAK2247" ] || [ "$MODEL" = "IC880A" ];then
         ./start_sx1301.sh
     fi
@@ -33,5 +17,3 @@ if [ -z ${MODEL} ] ;
         ./start_sx1302.sh
     fi
 fi
-
-#balena-idle
