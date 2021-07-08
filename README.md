@@ -230,5 +230,5 @@ Feel free to introduce issues on this repo and contribute with solutions.
 ## Attribution
 
 - This is an adaptation of the [Semtech Basics Station repository](https://github.com/lorabasics/basicstation). Documentation [here](https://doc.sm.tc/station).
-- This is in part working thanks of the work of Jose Marcelino from RAK Wireless, Xose Pérez from Allwize and Marc Pous from balena.io.
+- This is in part working thanks of the work of Jose Marcelino from RAK Wireless, Xose Pérez from Allwize & RAK Wireless and Marc Pous from balena.io.
 - This is in part based on excellent work done by Rahul Thakoor from the Balena.io Hardware Hackers team.
